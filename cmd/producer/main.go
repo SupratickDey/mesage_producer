@@ -46,62 +46,66 @@ func main() {
 
 	slog.Info("Starting message producer", "version", "1.0.0")
 
-	// Load configuration
-	cfg, err := config.Load(*configPath)
-	if err != nil {
-		// If config file doesn't exist and we have environment variables, try to use defaults
-		if os.IsNotExist(err) {
-			slog.Warn("Config file not found, using defaults with environment overrides", "config_path", *configPath)
-			cfg = &config.Config{
-				Producer: config.ProducerConfig{
-					MessageCount: 0,
-					Workers:      4,
-					BufferSize:   10000,
+	// Check if config file exists
+	var cfg *config.Config
+	var err error
+	
+	if _, statErr := os.Stat(*configPath); os.IsNotExist(statErr) {
+		// Config file doesn't exist, use defaults with environment overrides
+		slog.Warn("Config file not found, using defaults with environment overrides", "config_path", *configPath)
+		cfg = &config.Config{
+			Producer: config.ProducerConfig{
+				MessageCount: 0,
+				Workers:      4,
+				BufferSize:   10000,
+			},
+			Output: config.OutputConfig{
+				Format:    "parquet",
+				Directory: "/app/output",
+				CSV: config.CSVConfig{
+					Enabled:    false,
+					Filename:   "transactions.csv",
+					BufferSize: 10000,
 				},
-				Output: config.OutputConfig{
-					Format:    "parquet",
-					Directory: "/app/output",
-					CSV: config.CSVConfig{
-						Enabled:    false,
-						Filename:   "transactions.csv",
-						BufferSize: 10000,
-					},
-					Parquet: config.ParquetConfig{
-						Enabled:      false,
-						Filename:     "transactions.parquet",
-						RowGroupSize: 50000,
-						Compression:  "snappy",
-					},
+				Parquet: config.ParquetConfig{
+					Enabled:      false,
+					Filename:     "transactions.parquet",
+					RowGroupSize: 50000,
+					Compression:  "snappy",
 				},
-				Kafka: config.KafkaConfig{
-					Enabled:        false,
-					Brokers:        []string{"localhost:9092"},
-					Topic:          "transactions",
-					Compression:    "snappy",
-					BatchSize:      5000,
-					FlushFrequency: 100,
-					Async:          true,
-				},
-				Data: config.DataConfig{
-					CurrencyRates:  "/app/data/currency_rates.json",
-					Agents:         "/app/data/agents.json",
-					GameCategories: "/app/data/game_categories.json",
-					Currencies:     "/app/data/currencies.json",
-				},
-				Metrics: config.MetricsConfig{
-					Interval: 5,
-					Detailed: true,
-				},
-			}
-			// Apply environment variable overrides
-			cfg.ApplyEnvOverrides()
-			
-			// Validate the configuration
-			if err := cfg.Validate(); err != nil {
-				slog.Error("Invalid configuration", "error", err)
-				os.Exit(1)
-			}
-		} else {
+			},
+			Kafka: config.KafkaConfig{
+				Enabled:        false,
+				Brokers:        []string{"localhost:9092"},
+				Topic:          "transactions",
+				Compression:    "snappy",
+				BatchSize:      5000,
+				FlushFrequency: 100,
+				Async:          true,
+			},
+			Data: config.DataConfig{
+				CurrencyRates:  "/app/data/currency_rates.json",
+				Agents:         "/app/data/agents.json",
+				GameCategories: "/app/data/game_categories.json",
+				Currencies:     "/app/data/currencies.json",
+			},
+			Metrics: config.MetricsConfig{
+				Interval: 5,
+				Detailed: true,
+			},
+		}
+		// Apply environment variable overrides
+		cfg.ApplyEnvOverrides()
+		
+		// Validate the configuration
+		if err := cfg.Validate(); err != nil {
+			slog.Error("Invalid configuration", "error", err)
+			os.Exit(1)
+		}
+	} else {
+		// Load configuration from file
+		cfg, err = config.Load(*configPath)
+		if err != nil {
 			slog.Error("Failed to load configuration", "error", err, "config_path", *configPath)
 			os.Exit(1)
 		}

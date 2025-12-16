@@ -38,8 +38,7 @@ WORKDIR /app
 # Copy binary from builder
 COPY --from=builder /build/producer /app/producer
 
-# Copy configuration and data files
-COPY --chown=app:app config.yaml /app/config.yaml
+# Copy data files
 COPY --chown=app:app data/ /app/data/
 
 # Create output directory
@@ -53,4 +52,4 @@ VOLUME ["/app/output"]
 
 # Set default command
 ENTRYPOINT ["/app/producer"]
-CMD ["-config", "/app/config.yaml"]
+CMD ["-log-level", "info"]

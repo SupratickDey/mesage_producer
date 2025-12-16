@@ -52,10 +52,25 @@ services:
         condition: service_healthy
     volumes:
       - ./output:/app/output
-      - ./config.kafka.yaml:/app/config.yaml:ro
     environment:
       - TZ=UTC
-    command: ["-config", "/app/config.yaml", "-log-level", "info"]
+      - KAFKA_ENABLED=true
+      - KAFKA_BROKERS=kafka:19092
+      - KAFKA_TOPIC=transactions
+      - KAFKA_COMPRESSION=snappy
+      - KAFKA_BATCH_SIZE=5000
+      - KAFKA_FLUSH_FREQUENCY=100
+      - KAFKA_ASYNC=true
+      - PRODUCER_MESSAGE_COUNT=0
+      - PRODUCER_WORKERS=12
+      - PRODUCER_BUFFER_SIZE=15000
+      - OUTPUT_FORMAT=parquet
+      - OUTPUT_DIRECTORY=/app/output
+      - PARQUET_ENABLED=false
+      - CSV_ENABLED=false
+      - METRICS_INTERVAL=5
+      - METRICS_DETAILED=true
+    command: ["-log-level", "info"]
     networks:
       - producer-network
     restart: unless-stopped
