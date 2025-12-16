@@ -9,8 +9,8 @@ output/
 *.dll
 *.so
 *.dylib
-producer
-message_producer
+/producer
+/message_producer
 
 # Test binary
 *.test
