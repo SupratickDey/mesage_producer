@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-producer
+  labels:
+    app: kafka-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-producer
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+        - name: kafka-producer
+          image: <REGISTRY>/message-producer:latest
+          imagePullPolicy: Always
+          env:
+            - name: KAFKA_ENABLED
+              value: "true"
+            - name: KAFKA_BROKERS
+              value: "kafka-service.dev.svc.cluster.local:9092"
+            - name: KAFKA_TOPIC
+              value: "transactions"
+            - name: KAFKA_COMPRESSION
+              value: "snappy"
+            - name: KAFKA_BATCH_SIZE
+              value: "5000"
+            - name: KAFKA_FLUSH_FREQUENCY
+              value: "100"
+            - name: KAFKA_ASYNC
+              value: "true"
+            - name: PRODUCER_MESSAGE_COUNT
+              value: "0"
+            - name: PRODUCER_WORKERS
+              value: "12"
+            - name: PRODUCER_BUFFER_SIZE
+              value: "15000"
+            - name: OUTPUT_FORMAT
+              value: "parquet"
+            - name: OUTPUT_DIRECTORY
+              value: "/app/output"
+            - name: PARQUET_ENABLED
+              value: "false"
+            - name: CSV_ENABLED
+              value: "false"
+            - name: METRICS_INTERVAL
+              value: "5"
+            - name: METRICS_DETAILED
+              value: "true"
+            - name: DATA_CURRENCY_RATES
+              value: "/app/data/currency_rates.json"
+            - name: DATA_AGENTS
+              value: "/app/data/agents.json"
+            - name: DATA_GAME_CATEGORIES
+              value: "/app/data/game_categories.json"
+            - name: DATA_CURRENCIES
+              value: "/app/data/currencies.json"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-producer
+  labels:
+    app: kafka-producer
+spec:
+  type: ClusterIP
+  selector:
+    app: kafka-producer
+  ports:
+    - name: metrics
+      port: 9090
+      targetPort: 9090
+      protocol: TCP

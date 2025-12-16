@@ -3,7 +3,10 @@ package config
 import (
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
 
+	"github.com/joho/godotenv"
 	"gopkg.in/yaml.v3"
 )
 
@@ -73,6 +76,9 @@ type MetricsConfig struct {
 
 // Load reads and parses the configuration file
 func Load(path string) (*Config, error) {
+	// Try to load .env file if it exists (non-fatal if missing)
+	_ = godotenv.Load()
+
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read config file: %w", err)
@@ -83,11 +89,127 @@ func Load(path string) (*Config, error) {
 		return nil, fmt.Errorf("failed to parse config file: %w", err)
 	}
 
+	// Override with environment variables if present
+	cfg.applyEnvOverrides()
+
 	if err := cfg.Validate(); err != nil {
 		return nil, fmt.Errorf("invalid configuration: %w", err)
 	}
 
 	return &cfg, nil
+}
+
+// ApplyEnvOverrides is a public wrapper for applyEnvOverrides
+func (c *Config) ApplyEnvOverrides() {
+	c.applyEnvOverrides()
+}
+
+// applyEnvOverrides applies environment variable overrides to the configuration
+func (c *Config) applyEnvOverrides() {
+	// Producer config
+	if v := os.Getenv("PRODUCER_MESSAGE_COUNT"); v != "" {
+		if count, err := strconv.Atoi(v); err == nil {
+			c.Producer.MessageCount = count
+		}
+	}
+	if v := os.Getenv("PRODUCER_WORKERS"); v != "" {
+		if workers, err := strconv.Atoi(v); err == nil {
+			c.Producer.Workers = workers
+		}
+	}
+	if v := os.Getenv("PRODUCER_BUFFER_SIZE"); v != "" {
+		if size, err := strconv.Atoi(v); err == nil {
+			c.Producer.BufferSize = size
+		}
+	}
+
+	// Output config
+	if v := os.Getenv("OUTPUT_FORMAT"); v != "" {
+		c.Output.Format = v
+	}
+	if v := os.Getenv("OUTPUT_DIRECTORY"); v != "" {
+		c.Output.Directory = v
+	}
+
+	// CSV config
+	if v := os.Getenv("CSV_ENABLED"); v != "" {
+		c.Output.CSV.Enabled = v == "true"
+	}
+	if v := os.Getenv("CSV_FILENAME"); v != "" {
+		c.Output.CSV.Filename = v
+	}
+	if v := os.Getenv("CSV_BUFFER_SIZE"); v != "" {
+		if size, err := strconv.Atoi(v); err == nil {
+			c.Output.CSV.BufferSize = size
+		}
+	}
+
+	// Parquet config
+	if v := os.Getenv("PARQUET_ENABLED"); v != "" {
+		c.Output.Parquet.Enabled = v == "true"
+	}
+	if v := os.Getenv("PARQUET_FILENAME"); v != "" {
+		c.Output.Parquet.Filename = v
+	}
+	if v := os.Getenv("PARQUET_ROW_GROUP_SIZE"); v != "" {
+		if size, err := strconv.Atoi(v); err == nil {
+			c.Output.Parquet.RowGroupSize = size
+		}
+	}
+	if v := os.Getenv("PARQUET_COMPRESSION"); v != "" {
+		c.Output.Parquet.Compression = v
+	}
+
+	// Kafka config
+	if v := os.Getenv("KAFKA_ENABLED"); v != "" {
+		c.Kafka.Enabled = v == "true"
+	}
+	if v := os.Getenv("KAFKA_BROKERS"); v != "" {
+		c.Kafka.Brokers = strings.Split(v, ",")
+	}
+	if v := os.Getenv("KAFKA_TOPIC"); v != "" {
+		c.Kafka.Topic = v
+	}
+	if v := os.Getenv("KAFKA_COMPRESSION"); v != "" {
+		c.Kafka.Compression = v
+	}
+	if v := os.Getenv("KAFKA_BATCH_SIZE"); v != "" {
+		if size, err := strconv.Atoi(v); err == nil {
+			c.Kafka.BatchSize = size
+		}
+	}
+	if v := os.Getenv("KAFKA_FLUSH_FREQUENCY"); v != "" {
+		if freq, err := strconv.Atoi(v); err == nil {
+			c.Kafka.FlushFrequency = freq
+		}
+	}
+	if v := os.Getenv("KAFKA_ASYNC"); v != "" {
+		c.Kafka.Async = v == "true"
+	}
+
+	// Data config
+	if v := os.Getenv("DATA_CURRENCY_RATES"); v != "" {
+		c.Data.CurrencyRates = v
+	}
+	if v := os.Getenv("DATA_AGENTS"); v != "" {
+		c.Data.Agents = v
+	}
+	if v := os.Getenv("DATA_GAME_CATEGORIES"); v != "" {
+		c.Data.GameCategories = v
+	}
+	if v := os.Getenv("DATA_CURRENCIES"); v != "" {
+		c.Data.Currencies = v
+	}
+
+	// Metrics config
+	if v := os.Getenv("METRICS_INTERVAL"); v != "" {
+		if interval, err := strconv.Atoi(v); err == nil {
+			c.Metrics.Interval = interval
+		}
+	}
+	if v := os.Getenv("METRICS_DETAILED"); v != "" {
+		c.Metrics.Detailed = v == "true"
+	}
 }
 
 // Validate checks if the configuration is valid
