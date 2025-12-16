@@ -33,12 +33,14 @@ type OutputConfig struct {
 
 // CSVConfig holds CSV-specific settings
 type CSVConfig struct {
+	Enabled    bool   `yaml:"enabled"`
 	Filename   string `yaml:"filename"`
 	BufferSize int    `yaml:"buffer_size"`
 }
 
 // ParquetConfig holds Parquet-specific settings
 type ParquetConfig struct {
+	Enabled      bool   `yaml:"enabled"`
 	Filename     string `yaml:"filename"`
 	RowGroupSize int    `yaml:"row_group_size"`
 	Compression  string `yaml:"compression"`

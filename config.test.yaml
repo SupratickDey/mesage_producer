@@ -1,0 +1,26 @@
+# Test configuration - No file output
+producer:
+  message_count: 50000
+  workers: 10
+  buffer_size: 10000
+
+output:
+  format: "both"
+  directory: "./output"
+  csv:
+    enabled: false
+  parquet:
+    enabled: false
+
+kafka:
+  enabled: false
+
+data:
+  currency_rates: "./data/currency_rates.json"
+  agents: "./data/agents.json"
+  game_categories: "./data/game_categories.json"
+  currencies: "./data/currencies.json"
+
+metrics:
+  interval: 5
+  detailed: true

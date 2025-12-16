@@ -19,11 +19,13 @@ output:
   
   # CSV specific settings
   csv:
+    enabled: true
     filename: "transactions.csv"
     buffer_size: 100
   
   # Parquet specific settings
   parquet:
+    enabled: true
     filename: "transactions.parquet"
     row_group_size: 10000
     compression: "snappy"  # Options: none, snappy, gzip, lz4, zstd

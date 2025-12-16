@@ -115,7 +115,7 @@ func main() {
 	}
 
 	// CSV Writer
-	if cfg.Output.Format == "csv" || cfg.Output.Format == "both" {
+	if cfg.Output.CSV.Enabled && (cfg.Output.Format == "csv" || cfg.Output.Format == "both") {
 		csvWriter, err := writer.NewCSVWriter(cfg.Output.Directory, cfg.Output.CSV.Filename, cfg.Output.CSV.BufferSize, logger)
 		if err != nil {
 			slog.Error("Failed to create CSV writer", "error", err)
@@ -150,7 +150,7 @@ func main() {
 	}
 
 	// Parquet Writer
-	if cfg.Output.Format == "parquet" || cfg.Output.Format == "both" {
+	if cfg.Output.Parquet.Enabled && (cfg.Output.Format == "parquet" || cfg.Output.Format == "both") {
 		parquetWriter, err := writer.NewParquetWriter(
 			cfg.Output.Directory,
 			cfg.Output.Parquet.Filename,

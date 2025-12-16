@@ -8,7 +8,10 @@ producer:
 output:
   format: "parquet"
   directory: "./output"
+  csv:
+    enabled: false
   parquet:
+    enabled: true
     filename: "transactions.parquet"
     row_group_size: 50000
     compression: "snappy"
