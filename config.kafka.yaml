@@ -1,0 +1,33 @@
+# Kafka Streaming Configuration
+producer:
+  message_count: 0  # Continuous mode
+  workers: 12
+  buffer_size: 15000
+
+output:
+  format: "parquet"
+  directory: "/app/output"
+  parquet:
+    filename: "transactions.parquet"
+    row_group_size: 50000
+    compression: "snappy"
+
+kafka:
+  enabled: true
+  brokers:
+    - "kafka:19092"
+  topic: "transactions"
+  compression: "snappy"
+  batch_size: 5000
+  flush_frequency: 100
+  async: true
+
+data:
+  currency_rates: "/app/data/currency_rates.json"
+  agents: "/app/data/agents.json"
+  game_categories: "/app/data/game_categories.json"
+  currencies: "/app/data/currencies.json"
+
+metrics:
+  interval: 5
+  detailed: true

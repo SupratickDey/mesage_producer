@@ -1,0 +1,8 @@
+[
+  {"id": 1, "code": "SLOTS", "name": "Slots", "status": 1},
+  {"id": 2, "code": "LIVE_CASINO", "name": "Live Casino", "status": 1},
+  {"id": 3, "code": "FISHING", "name": "Fishing", "status": 1},
+  {"id": 4, "code": "TABLE", "name": "Table Games", "status": 1},
+  {"id": 5, "code": "CRASH", "name": "Crash Games", "status": 1},
+  {"id": 6, "code": "SPORT", "name": "Sportsbook", "status": 1}
+]

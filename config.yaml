@@ -1,0 +1,64 @@
+# Message Producer Configuration
+producer:
+  # Number of messages to generate
+  message_count: 100000
+  
+  # Number of worker goroutines for generation
+  workers: 10
+  
+  # Buffer size for channels
+  buffer_size: 10000
+
+# Output configuration
+output:
+  # Output format: csv, parquet, or both
+  format: "both"  # Options: "csv", "parquet", "both"
+  
+  # Output directory
+  directory: "./output"
+  
+  # CSV specific settings
+  csv:
+    filename: "transactions.csv"
+    buffer_size: 100
+  
+  # Parquet specific settings
+  parquet:
+    filename: "transactions.parquet"
+    row_group_size: 10000
+    compression: "snappy"  # Options: none, snappy, gzip, lz4, zstd
+
+# Kafka configuration
+kafka:
+  # Enable/disable Kafka producer
+  enabled: false
+  
+  # Kafka brokers
+  brokers:
+    - "localhost:9092"
+  
+  # Topic to publish to
+  topic: "transactions"
+  
+  # Producer settings
+  compression: "snappy"  # Options: none, gzip, snappy, lz4, zstd
+  batch_size: 1000
+  flush_frequency: 100  # milliseconds
+  
+  # Async mode for higher throughput
+  async: true
+
+# Data files
+data:
+  currency_rates: "./data/currency_rates.json"
+  agents: "./data/agents.json"
+  game_categories: "./data/game_categories.json"
+  currencies: "./data/currencies.json"
+
+# Metrics
+metrics:
+  # Print metrics interval in seconds
+  interval: 1
+  
+  # Enable detailed metrics
+  detailed: true

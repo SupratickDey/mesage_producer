@@ -1,0 +1,10 @@
+[
+  {"id": 1, "code": "USDT", "name": "Tether"},
+  {"id": 2, "code": "CNY", "name": "Chinese Yuan"},
+  {"id": 3, "code": "USD", "name": "US Dollar"},
+  {"id": 4, "code": "BTC", "name": "Bitcoin"},
+  {"id": 5, "code": "ETH", "name": "Ethereum"},
+  {"id": 6, "code": "EUR", "name": "Euro"},
+  {"id": 7, "code": "JPY", "name": "Japanese Yen"},
+  {"id": 8, "code": "GBP", "name": "British Pound"}
+]

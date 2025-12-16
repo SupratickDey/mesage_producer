@@ -1,0 +1,27 @@
+# Continuous Mode Configuration
+# Set message_count to 0 for infinite generation
+producer:
+  message_count: 0  # 0 = continuous mode (run until stopped)
+  workers: 16
+  buffer_size: 20000
+
+output:
+  format: "parquet"
+  directory: "./output"
+  parquet:
+    filename: "transactions.parquet"
+    row_group_size: 50000
+    compression: "snappy"
+
+kafka:
+  enabled: false
+
+data:
+  currency_rates: "./data/currency_rates.json"
+  agents: "./data/agents.json"
+  game_categories: "./data/game_categories.json"
+  currencies: "./data/currencies.json"
+
+metrics:
+  interval: 5  # Report every 5 seconds in continuous mode
+  detailed: true

@@ -1,0 +1,32 @@
+# Build artifacts
+producer
+*.exe
+*.test
+*.out
+
+# Output files
+output/
+*.csv
+*.parquet
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Documentation (not needed in image)
+*.md
+!README.md
+
+# Test configs
+config.test.yaml
+config.benchmark.yaml
+
+# Temporary
+tmp/
+temp/

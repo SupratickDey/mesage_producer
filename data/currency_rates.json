@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "currency_from": "CNY",
+    "currency_from_id": 2,
+    "currency_to": "USDT",
+    "currency_to_id": 1,
+    "rate": 0.14290000,
+    "effective_from": 0,
+    "status": 1
+  },
+  {
+    "id": 2,
+    "currency_from": "USD",
+    "currency_from_id": 3,
+    "currency_to": "USDT",
+    "currency_to_id": 1,
+    "rate": 1.00000000,
+    "effective_from": 0,
+    "status": 1
+  },
+  {
+    "id": 3,
+    "currency_from": "USDT",
+    "currency_from_id": 1,
+    "currency_to": "CNY",
+    "currency_to_id": 2,
+    "rate": 7.00000000,
+    "effective_from": 0,
+    "status": 1
+  },
+  {
+    "id": 4,
+    "currency_from": "USDT",
+    "currency_from_id": 1,
+    "currency_to": "USD",
+    "currency_to_id": 3,
+    "rate": 1.00000000,
+    "effective_from": 0,
+    "status": 1
+  },
+  {
+    "id": 5,
+    "currency_from": "BTC",
+    "currency_from_id": 4,
+    "currency_to": "USDT",
+    "currency_to_id": 1,
+    "rate": 65000.00000000,
+    "effective_from": 0,
+    "status": 1
+  },
+  {
+    "id": 6,
+    "currency_from": "ETH",
+    "currency_from_id": 5,
+    "currency_to": "USDT",
+    "currency_to_id": 1,
+    "rate": 2500.00000000,
+    "effective_from": 0,
+    "status": 1
+  },
+  {
+    "id": 7,
+    "currency_from": "USD",
+    "currency_from_id": 3,
+    "currency_to": "EUR",
+    "currency_to_id": 6,
+    "rate": 0.92000000,
+    "effective_from": 1700000000,
+    "status": 1
+  },
+  {
+    "id": 8,
+    "currency_from": "EUR",
+    "currency_from_id": 6,
+    "currency_to": "USD",
+    "currency_to_id": 3,
+    "rate": 1.08700000,
+    "effective_from": 1700000000,
+    "status": 1
+  },
+  {
+    "id": 9,
+    "currency_from": "USD",
+    "currency_from_id": 3,
+    "currency_to": "JPY",
+    "currency_to_id": 7,
+    "rate": 145.00000000,
+    "effective_from": 1700000000,
+    "status": 1
+  },
+  {
+    "id": 10,
+    "currency_from": "USD",
+    "currency_from_id": 3,
+    "currency_to": "GBP",
+    "currency_to_id": 8,
+    "rate": 0.78000000,
+    "effective_from": 1700000000,
+    "status": 1
+  },
+  {
+    "id": 13,
+    "currency_from": "CNY",
+    "currency_from_id": 2,
+    "currency_to": "USD",
+    "currency_to_id": 3,
+    "rate": 0.14000000,
+    "effective_from": 1761955200,
+    "status": 1
+  },
+  {
+    "id": 14,
+    "currency_from": "CNY",
+    "currency_from_id": 2,
+    "currency_to": "USD",
+    "currency_to_id": 3,
+    "rate": 0.14100000,
+    "effective_from": 1764547200,
+    "status": 1
+  },
+  {
+    "id": 15,
+    "currency_from": "CNY",
+    "currency_from_id": 2,
+    "currency_to": "USD",
+    "currency_to_id": 3,
+    "rate": 0.13950000,
+    "effective_from": 1764806400,
+    "status": 1
+  },
+  {
+    "id": 16,
+    "currency_from": "CNY",
+    "currency_from_id": 2,
+    "currency_to": "USD",
+    "currency_to_id": 3,
+    "rate": 0.13800000,
+    "effective_from": 1765065600,
+    "status": 1
+  }
+]
